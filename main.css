@@ -3,10 +3,10 @@
 
 
 :root {
-    --md-dark-color: #1d1d1d;
-    --dark-color: #171717;
-    --light-dark-color: #292929;
-    --yellow-color: #d4aa11;
+    --md-dark-color: #460404;
+    --dark-color: #570505;
+    --light-dark-color: #5d0e0e;
+    --yellow-color: #e6e622;
 }
 * {
     padding: 0;
