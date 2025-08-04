@@ -7,6 +7,8 @@
 // http://www.omdbapi.com/?i=tt2705436&apikey=fc1fef96 => resukts for spiderman and similar
 
 // http://www.omdbapi.com/?apikey=[yourkey]&
+const apiKey = 'f779596';
+
 
 const movieSearchBox = document.getElementById('movie-search-box');
 const searchList = document.getElementById('search-list');
@@ -68,10 +70,13 @@ function loadMovieDetails() {
     searchlistMovies.forEach(movie => {
         //When the user clicks this particular movie in the dropdown, run the following async function.
         movie.addEventListener('click', async() => {
-            // console.log(movie.dataset.id);
+            // Hide the dropdown
             searchList.classList.add('hide-search-list');
+            // Clear the input
             movieSearchBox.value = " ";
-            const result = await fetch(`https://www.omdbapi.com/?i=${movie.dataset.id}&apikey=fc1fef96`);
+
+            //fetch full details over https, injecting your api key
+            const result = await fetch(`https://www.omdbapi.com/?i=${movie.dataset.id}&apikey=${apiKey}`);
             const movieDetails = await result.json();
             // console.log(movieDetails);
             displayMovieDetails(movieDetails);
