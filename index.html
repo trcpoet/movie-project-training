@@ -14,30 +14,39 @@
     <div class="wrapper">
         <!-- logo -->
          <div class="logo">
-            <div class="container">
+            <header class="logo container">
                 <p>Movie<span>Hub.</span></p>
-            </div>
+            </header>
          </div>
          <!-- end of logo -->
 
           <!-- Search container -->
-           <div class="search-container">
-            <div class="search-element">
-                <h3>Search Movie:</h3>
+           <section class="search-container">
+            <div class="container">
+                <h3><span style="color: white;">Search</span> <span style="color:#e6e622">Movie</span></h3>
 
-                <div class="search-input-wrapper">
+                <form id="search-form">
                     <input 
                     type="text" 
-                    class="form-control" 
+                    id="search-input" 
                     placeholder="Search Movie Title . . ." 
-                    id="movie-search-box" 
-                    onkeyup="findMovies()"
-                    onclick = "findMovies()"
-                    >
-                    
+                    autocomplete="off"
+                    />
+                    <button type="submit" id="search-button">Search</button>
+                    <button type="button" id="reset-button">Reset</button>
+                </form>
+            </div>
+           </section>
 
-                    <div class="search-list" id="search-list">
-                        <!-- list here -->
+           <main class="container">
+            <div id="movies-container" class="movies-container">
+
+
+            </div>
+           </main>
+    </div>
+                    <!-- <div class="search-list" id="search-list">
+                        list here -->
                         <!-- <div class="search-list-item">
                             <div class="search-item-thumbnail">
                                 <img src="./medium-cover.jpg" alt="">
@@ -48,16 +57,16 @@
                             </div>
                         </div> -->
                         <!-- list end here  -->
-                    </div>
-                </div>
-            </div>
-           </div>
+                    <!-- </div> -->
+                <!-- </div> -->
+            <!-- </div> -->
+        <!-- </section> -->
           <!-- End of Search container -->
 
           <!-- Result container -->
-           <div class="container">
+           <!-- <div class="container">
                 <div class="result-container">
-                    <div class="result-grid" id="result-grid">
+                    <div class="result-grid" id="result-grid"> -->
                         <!-- movie information here -->
                          <!-- <div class="movie-poster">
                             <img src="./medium-cover.jpg" alt="movie poster">
@@ -75,14 +84,14 @@
                             <p class="plot"><b>Plot:</b> The end of the world </p>
                             <p class="language"><b>Language:</b> English</p>
                             <p class="awards"><b><i class ="fas fa-award"></i></b> Nominated for 1 Oscar</p>
-                            <!-- Starts editing css here -->
-                         </div> -->
+                             Starts editing css here -->
+                         <!-- </div> 
                     </div>
                 </div>
-           </div>
+           </div> -->
 
           <!--end of result container -->
-    </div>
+    <!-- </div>  -->
 
     
 
