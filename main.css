@@ -302,9 +302,7 @@ img {
         one fraction of the available space.” */
         grid-template-columns: repeat(2, 1fr);
     }
-    .movie-poster{
-        
-    }
+
     .movie-info {
         text-align: left;
         padding-top: 0;
