@@ -24,21 +24,31 @@
            <div class="search-container">
             <div class="search-element">
                 <h3>Search Movie:</h3>
-                <input type="text" class="form-control" 
-                placeholder="Search Movie Title . . ." id="movie-search-box">
 
-                <div class="search-list" id="search-list">
-                    <!-- list here -->
-                     <div class="search-list-item">
-                        <div class="search-item-thumbnail">
-                            <img src="./medium-cover.jpg" alt="">
-                        </div>
-                        <div class="search-item-info">
-                            <h3>Avengers: Infinte War</h3>
-                            <p>2021</p>
-                        </div>
-                     </div>
-                     
+                <div class="search-input-wrapper">
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Search Movie Title . . ." 
+                    id="movie-search-box" 
+                    onkeyup="findMovies()"
+                    onclick = "findMovies() "
+                    >
+                    
+
+                    <div class="search-list" id="search-list">
+                        <!-- list here -->
+                        <!-- <div class="search-list-item">
+                            <div class="search-item-thumbnail">
+                                <img src="./medium-cover.jpg" alt="">
+                            </div>
+                            <div class="search-item-info">
+                                <h3>Avengers: Infinte War</h3>
+                                <p>2021</p>
+                            </div>
+                        </div> -->
+                        <!-- list end here  -->
+                    </div>
                 </div>
             </div>
            </div>
@@ -49,7 +59,7 @@
                 <div class="result-container">
                     <div class="result-grid" id="result-grid">
                         <!-- movie information here -->
-                         <div class="movie-poster">
+                         <!-- <div class="movie-poster">
                             <img src="./medium-cover.jpg" alt="movie poster">
                          </div>
                          <div class="movie-info">
@@ -66,7 +76,7 @@
                             <p class="language"><b>Language:</b> English</p>
                             <p class="awards"><b><i class ="fas fa-award"></i></b> Nominated for 1 Oscar</p>
                             <!-- Starts editing css here -->
-                         </div>
+                         </div> -->
                     </div>
                 </div>
            </div>
