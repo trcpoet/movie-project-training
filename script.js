@@ -116,8 +116,10 @@
 //     }
 // })
 
-const apiKey = 'f779596';
+const sortSelect  = document.getElementById('sort-select');
+let   lastResults = [];   // will hold the raw array from OMDb
 
+const apiKey = 'f779596';
 const form    = document.getElementById('search-form');
 const input   = document.getElementById('search-input');
 const reset   = document.getElementById('reset-button');
@@ -129,21 +131,51 @@ form.addEventListener('submit', async e => {
   const term = input.value.trim();
   if (!term) return;
 
+
   // 2) Fetch up to 6 movies
   const url  = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(term)}`;
   const res  = await fetch(url);
   const data = await res.json();
 
   // 3) Render cards or “no results”
-  if (data.Response === 'True') displayMovies(data.Search);
-  else cardsEl.innerHTML = '<p class="no-results">No results found.</p>';
+  if (data.Response === 'True') {
+    //STORE the results for sorting
+    lastResults = data.Search;
+    //RENDER THE FIRST 6
+    displayMovies(lastResults);
+  } else cardsEl.innerHTML = '<p class="no-results">No results found.</p>';
 });
 
 // 4) Reset handler
 reset.addEventListener('click', () => {
   input.value = '';
   cardsEl.innerHTML = '';
+  sortSelect.value = ''; //resets the sort dropdown
 });
+
+
+// 3) Sorting logic — run whenever the user picks a sort order
+sortSelect.addEventListener('change', () => {
+  if (!lastResults.length) return;
+
+  // Shallow copy so we don’t mutate the original
+  const sorted = [...lastResults];
+
+  if (sortSelect.value === 'year-asc') {
+    sorted.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+  }
+  else if (sortSelect.value === 'year-desc') {
+    sorted.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+  }
+  else {
+    // “<empty>” selection: restore original order
+    return displayMovies(lastResults);
+  }
+
+  // Re-render the cards in sorted order
+  displayMovies(sorted);
+});
+
 
 // 5) Build and append movie cards
 function displayMovies(movies) {

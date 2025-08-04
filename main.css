@@ -609,3 +609,19 @@ padding: 0.75rem;
 }
 
 
+#sort-select {
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  border: 2px solid var(--accent);
+  background: var(--dark-color);
+  color: var(--light-color);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* on small screens, make it full-width with the rest */
+@media (max-width: 450px) {
+  #sort-select {
+    width: 100%;
+  }
+}
