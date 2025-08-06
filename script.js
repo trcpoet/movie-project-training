@@ -134,13 +134,32 @@ form.addEventListener('submit', async e => {
 
   // 2) Fetch up to 6 movies
   const url  = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(term)}`;
+  //fetch(url) initiates an HTTP GET request to the OMDb API endpoint you constructed.
   const res  = await fetch(url);
+  //res.json() reads the rae response body() (a JSON string) and parses it into a JavaScript object.
   const data = await res.json();
+//Why separate steps?
+// await fetch gives you the response headers and status.
+// await res.json() gives you the actual data payload.
+
+
+
 
   // 3) Render cards or “no results”
   if (data.Response === 'True') {
     //STORE the results for sorting
     lastResults = data.Search;
+//lastResults = data.Search;
+//data.Search is the array of movie summaries ({ Title, Year, imdbID, Poster, Type }).
+//We store the entire array in lastResults so that later, when the user picks a sort option, we have the original data to reorder—without hitting the API again.
+
+// displayMovies(lastResults);
+// Invokes your helper function that:
+// Takes the first six items from the array (slice(0,6)).
+// Creates a <div class="movie-card"> for each.
+// Fills in an <img>, <h3>, and <p>.
+// Appends those to cardsEl.
+// Result: The user sees six movie cards laid out in your grid.
     //RENDER THE FIRST 6
     displayMovies(lastResults);
   } else cardsEl.innerHTML = '<p class="no-results">No results found.</p>';
@@ -154,40 +173,66 @@ reset.addEventListener('click', () => {
 });
 
 
-// 3) Sorting logic — run whenever the user picks a sort order
-sortSelect.addEventListener('change', () => {
+//Sorting logic — run whenever the user picks a sort order
+// 1) Watch for when the user picks a sort option
+//addEventListener('change', …) means “run this code any time the dropdown’s value changes.”
+sortSelect.addEventListener('change', () => 
+// 2) If we haven’t done a search yet, there’s nothing to reorder
+// lastResults.length is zero until you’ve stored at least one API result.
+//return here stops the function early—no sorting happens.
+{
   if (!lastResults.length) return;
 
   // Shallow copy so we don’t mutate the original
+  // 3) Make a fresh copy of the movies array
   const sorted = [...lastResults];
+  //The spread operator ([...]) clones the array.
+  //Why not sort lastResults directly? So we keep the original order untouched—useful if the user switches back to “<no sort>.”
 
+  //4) Check which direction was selected
   if (sortSelect.value === 'year-asc') {
-    sorted.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
+    //Old → New: earliest year first
+    sorted.sort((a, b) => 
+      parseInt(a.Year) - parseInt(b.Year)
+  );
   }
+    //New → Old: latest year first
   else if (sortSelect.value === 'year-desc') {
-    sorted.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+    sorted.sort((a, b) => 
+      parseInt(b.Year) - parseInt(a.Year)
+  );
   }
   else {
     // “<empty>” selection: restore original order
+    //5) If they pick the “no sort” placeholder, show original order
     return displayMovies(lastResults);
   }
-
   // Re-render the cards in sorted order
+  // 6) Finally, redraw the cards in the new order
   displayMovies(sorted);
 });
 
 
 // 5) Build and append movie cards
 function displayMovies(movies) {
+
+  //Clear display area: so old cards don't hang around. Setting .innerHTML = '' wipes out every child of the container, giving you a fresh canvas.
   cardsEl.innerHTML = '';
+
+  //Grab only the first six. .slice(0, 6) makes a new array containing items at indexes 0 through 5.
   movies.slice(0, 6).forEach(m => {
+
+    // Build a card wrapper
+    //We create a <div> in memory (not yet on the page) and give it the CSS class movie-card, so it automatically picks up your styling (background, padding, shadows, hover effects).
     const card = document.createElement('div');
     card.className = 'movie-card';
 
+    //Choose a poster image
     const poster = m.Poster !== 'N/A'
       ? m.Poster
       : 'image_not_found.png';
 
+    //Fill the card’s HTML
     card.innerHTML = `
       <img 
         src="${poster}" 
@@ -197,7 +242,24 @@ function displayMovies(movies) {
       <h3>${m.Title}</h3>
       <p>${m.Year}</p>
     `;
-
+    //Add the card to the page: appendChild moves our newly built <div> into the DOM under cardsEl. Repeat this for each of the six movies.
     cardsEl.appendChild(card);
   });
 }
+
+
+// Why practice this pattern?
+// Separation of concerns:
+// The rest of your code handles fetching and sorting.
+// displayMovies only deals with rendering.
+
+// Performance:
+// Clearing once up front avoids expensive DOM operations per card.
+// Creating elements in memory and then appending them minimizes reflows.
+
+// Simplicity and readability:
+// Using descriptive names (card, poster, movies.slice) makes the logic obvious at a glance.
+// The template literal keeps your HTML structure clean and maintainable.
+
+// By following these steps—clear, slice, create, fill, append—you get a robust, 
+// reusable function that cleanly lays out your top six movie cards every time you invoke it.
